@@ -1,13 +1,15 @@
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as Navlink } from "react-router-dom";
+import { Box, Flex } from "@chakra-ui/react";
+import AllBlogPosts from "./components/AllBlogPosts";
 
 const Home = () => {
   return (
     <>
-      Home{" "}
-      <ChakraLink as={Navlink} to="/about">
-        About
-      </ChakraLink>
+      <Box>Home</Box>
+      <Box>
+        <AllBlogPosts />
+      </Box>
     </>
   );
 };
