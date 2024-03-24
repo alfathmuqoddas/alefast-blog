@@ -6,7 +6,6 @@ import AllBlogPosts from "./components/AllBlogPosts";
 const Home = () => {
   return (
     <>
-      <Box>Home</Box>
       <Box>
         <AllBlogPosts />
       </Box>

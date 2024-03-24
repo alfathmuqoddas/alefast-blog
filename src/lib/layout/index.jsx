@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header />
-      <Box maxW={"1192px"} px={[8, 0]} mx={"auto"} my={16}>
+      <Box maxW={"1192px"} px={[8, 4]} mx={"auto"} my={16}>
         {children}
       </Box>
       <Footer />

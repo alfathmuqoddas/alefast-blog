@@ -1,4 +1,4 @@
-import { Box, Flex, Link as ChakraLink } from "@chakra-ui/react";
+import { Box, Flex, Link as ChakraLink, Text } from "@chakra-ui/react";
 import { Link as NavLink } from "react-router-dom";
 import { useGetAllBlogs } from "../../../hooks/useBlog";
 
@@ -8,7 +8,11 @@ const AllBlogPosts = () => {
 
   return (
     <>
-      <Box>All Blog Posts</Box>
+      <Box>
+        <Text fontSize={"30px"} fontWeight={"bold"}>
+          All Blog Posts
+        </Text>
+      </Box>
       <Box>
         <ul>
           {docs.map((doc) => (
