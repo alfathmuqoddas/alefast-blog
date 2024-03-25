@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useGetBlogById } from "../../hooks/useBlog";
-import { Box, Text, Button } from "@chakra-ui/react";
+import { Box, Text, Button, Flex } from "@chakra-ui/react";
 import { useDeleteBlogById } from "../../hooks/useBlog";
 import { AuthContext } from "../../components/AuthContext";
 import { useContext } from "react";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const BlogDetails = () => {
   let { id } = useParams();
@@ -26,8 +27,20 @@ const BlogDetails = () => {
         documentData.user_id &&
         currentUser.uid &&
         documentData.user_id === currentUser.uid ? (
-          <Button colorScheme={"red"} onClick={() => useDeleteBlogById(id)}>
-            Delete Blog
+          <Button
+            colorScheme={"red"}
+            onClick={() => useDeleteBlogById(id)}
+            px={2}
+            mb={8}
+          >
+            <Flex
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              gap={2}
+            >
+              <DeleteIcon boxSize={4} />
+              <Text>Delete</Text>
+            </Flex>
           </Button>
         ) : (
           <></>
