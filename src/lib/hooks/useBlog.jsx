@@ -4,11 +4,14 @@ import {
   collection,
   orderBy,
   query,
-  onSnapshot,
   getDocs,
   doc,
   getDoc,
+  addDoc,
+  onSnapshot,
+  deleteDoc,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 export const useGetAllBlogs = ({ collectionName }) => {
   const [docs, setDocs] = useState([]);
@@ -18,13 +21,15 @@ export const useGetAllBlogs = ({ collectionName }) => {
     const fetchData = async () => {
       try {
         const q = query(collection(db, collectionName), orderBy("created_at"));
-        const querySnapshot = await getDocs(q);
-        let documents = [];
-        querySnapshot.forEach((doc) => {
-          documents.push({ ...doc.data(), id: doc.id });
+        const unsub = onSnapshot(q, (querySnapshot) => {
+          let documents = [];
+          querySnapshot.forEach((doc) => {
+            documents.push({ ...doc.data(), id: doc.id });
+          });
+          setDocs(documents);
+          setLoading(false);
         });
-        setDocs(documents);
-        setLoading(false);
+        return () => unsub();
       } catch (error) {
         console.error("Error fetching documents: ", error);
         setLoading(false);
@@ -64,4 +69,20 @@ export const useGetBlogById = ({ blogId }) => {
   }, [blogId]);
 
   return { loading, error, documentData };
+};
+
+export const useCreateBlog = async (collectionName, data) => {
+  try {
+    await addDoc(collection(db, collectionName), data);
+  } catch (error) {
+    console.log({ error });
+  }
+};
+
+export const useDeleteBlogById = async (id) => {
+  try {
+    await deleteDoc(doc(db, "blogPost", id));
+  } catch (error) {
+    console.log({ error });
+  }
 };
