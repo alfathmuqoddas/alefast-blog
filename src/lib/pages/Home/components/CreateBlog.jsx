@@ -72,7 +72,7 @@ const CreateBlog = () => {
   };
   return (
     <>
-      <Button onClick={onOpen} px={2} colorScheme="blue" borderRadius={"99px"}>
+      <Button onClick={onOpen} px={4} colorScheme="blue" borderRadius={"99px"}>
         <Flex justifyContent={"space-between"} alignItems={"center"} gap={2}>
           <AddIcon boxSize={3} />
           <Text>Create Blog</Text>

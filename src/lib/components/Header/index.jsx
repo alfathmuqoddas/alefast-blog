@@ -19,8 +19,13 @@ const Header = () => {
   const { currentUser, signInWithGoogle, signOutFunc, loading } =
     useContext(AuthContext);
   return (
-    <Box p={2} bg={"black"} color={"white"}>
-      <Flex justifyContent={"space-between"} alignItems={"center"}>
+    <Box px={[8, 4]} py={2} bg={"black"} color={"white"}>
+      <Flex
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        maxW={"1192px"}
+        mx={"auto"}
+      >
         <Box>Menu</Box>
         <Box>
           <ChakraLink as={NavLink} to="/">

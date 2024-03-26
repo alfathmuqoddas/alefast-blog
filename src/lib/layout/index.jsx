@@ -4,13 +4,15 @@ import Footer from "../components/Footer";
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <Box minH={"100vh"} position={"relative"}>
       <Header />
-      <Box maxW={"1192px"} px={[8, 4]} mx={"auto"} my={16}>
+      <Box maxW={"1192px"} minH={"100vh"} px={[8, 4]} mx={"auto"} py={16}>
         {children}
       </Box>
-      <Footer />
-    </>
+      <Box minW={"100%"} bg={"#F8F7F3"}>
+        <Footer />
+      </Box>
+    </Box>
   );
 };
 
