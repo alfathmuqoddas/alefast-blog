@@ -19,12 +19,13 @@ const Header = () => {
   const { currentUser, signInWithGoogle, signOutFunc, loading } =
     useContext(AuthContext);
   return (
-    <Box px={[8, 4]} py={2} bg={"black"} color={"white"}>
+    <Box py={2} bg={"black"} color={"white"}>
       <Flex
         justifyContent={"space-between"}
         alignItems={"center"}
         maxW={"1192px"}
         mx={"auto"}
+        px={[8, 4]}
       >
         <Box>Menu</Box>
         <Box>
