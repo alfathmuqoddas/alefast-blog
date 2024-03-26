@@ -32,10 +32,7 @@ const AllBlogPosts = () => {
                   gap={2}
                   justifyContent={"space-between"}
                 >
-                  <Avatar
-                    name={`photoUrl_${doc.user_id}`}
-                    src={doc.user_photoUrl}
-                  />
+                  <Avatar name={doc.user_displayName} src={doc.user_photoUrl} />
 
                   <Text>{doc.title}</Text>
                 </Flex>

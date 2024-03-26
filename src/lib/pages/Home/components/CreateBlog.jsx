@@ -20,15 +20,22 @@ import { AuthContext } from "../../../components/AuthContext";
 import { AddIcon } from "@chakra-ui/icons";
 import { serverTimestamp } from "firebase/firestore";
 
-const FormCreateBlog = ({ onSubmit, onChange }) => {
+export const FormCreateBlog = ({ onSubmit, onChange }) => {
   return (
     <FormControl onSubmit={onSubmit} onChange={onChange}>
-      <Input type="text" name="title" placeholder="Insert Blog Title" mb={2} />
+      <Input
+        type="text"
+        name="title"
+        placeholder="Insert Blog Title"
+        mb={2}
+        borderRadius={"18px"}
+      />
       <Input
         type="text"
         name="content"
         placeholder="Insert Blog Content"
         minH={36}
+        borderRadius={"18px"}
       />
     </FormControl>
   );
@@ -57,16 +64,15 @@ const CreateBlog = () => {
         user_photoUrl: photoURL,
         created_at: serverTimestamp(),
       });
+      alert("Blog entry is succesfully created");
+      onClose();
     } catch (error) {
       console.log({ error });
-    } finally {
-      alert("Blog entry is succesfully created");
-      navigate("/");
     }
   };
   return (
     <>
-      <Button onClick={onOpen} px={2} colorScheme="blue">
+      <Button onClick={onOpen} px={2} colorScheme="blue" borderRadius={"99px"}>
         <Flex justifyContent={"space-between"} alignItems={"center"} gap={2}>
           <AddIcon boxSize={3} />
           <Text>Create Blog</Text>
@@ -75,7 +81,7 @@ const CreateBlog = () => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent borderRadius={"22px"}>
           <ModalHeader>Create Blog Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

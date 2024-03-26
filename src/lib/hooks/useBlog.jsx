@@ -11,7 +11,7 @@ import {
   onSnapshot,
   deleteDoc,
 } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 
 export const useGetAllBlogs = ({ collectionName }) => {
   const [docs, setDocs] = useState([]);
@@ -80,8 +80,15 @@ export const useCreateBlog = async (collectionName, data) => {
 };
 
 export const useDeleteBlogById = async (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this blog post?"
+  );
+  if (!confirmDelete) {
+    return; // If user cancels, exit function
+  }
   try {
     await deleteDoc(doc(db, "blogPost", id));
+    console.log("Document successfully deleted!"); ////
   } catch (error) {
     console.log({ error });
   }

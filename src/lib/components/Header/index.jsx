@@ -6,21 +6,26 @@ import {
   Text,
   MenuItem,
   MenuList,
+  Avatar,
   Link as ChakraLink,
+  Icon,
 } from "@chakra-ui/react";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Link as NavLink } from "react-router-dom";
 import UserMenu from "./UserMenu";
+import { MdOutlineHome, MdExitToApp } from "react-icons/md";
 
 const Header = () => {
   const { currentUser, signInWithGoogle, signOutFunc, loading } =
     useContext(AuthContext);
   return (
-    <Box>
-      <Flex justifyContent={"space-between"}>
+    <Box p={2} bg={"black"} color={"white"}>
+      <Flex justifyContent={"space-between"} alignItems={"center"}>
+        <Box>Menu</Box>
         <Box>
           <ChakraLink as={NavLink} to="/">
             <Text fontSize={"30px"} fontWeight={"bold"}>
-              Alefast Blog
+              Alefast
             </Text>
           </ChakraLink>
         </Box>
@@ -28,16 +33,28 @@ const Header = () => {
           {currentUser ? (
             <>
               <UserMenu
-                action={loading ? "loading..." : currentUser.displayName}
+                action={
+                  loading ? (
+                    "loading..."
+                  ) : (
+                    <Avatar
+                      name={currentUser.displayName}
+                      src={currentUser.photoURL}
+                      size={"sm"}
+                    />
+                  )
+                }
                 menuItems={
-                  <MenuList>
-                    <MenuItem as={NavLink} to="/">
+                  <MenuList borderRadius={"16px"} color={"black"}>
+                    <MenuItem as={NavLink} to="/" icon={<MdOutlineHome />}>
                       Home
                     </MenuItem>
                     <MenuItem as={NavLink} to="/about">
                       About
                     </MenuItem>
-                    <MenuItem onClick={signOutFunc}>Sign Out</MenuItem>
+                    <MenuItem onClick={signOutFunc} icon={<MdExitToApp />}>
+                      Sign Out
+                    </MenuItem>
                   </MenuList>
                 }
               />
