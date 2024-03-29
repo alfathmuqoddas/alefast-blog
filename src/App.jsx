@@ -1,9 +1,9 @@
-// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./lib/pages/Home";
-import About from "./lib/pages/About";
+import Home from "./lib/pages/home";
+import About from "./lib/pages/about";
 import Layout from "./lib/layout";
-import BlogDetails from "./lib/pages/BlogDetails";
+import BlogDetails from "./lib/pages/blogDetails";
+import CreateBlog from "./lib/pages/create-blog";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -19,24 +19,17 @@ const App = () => {
           element: <About />,
         },
         {
+          path: "create-blog",
+          element: <CreateBlog />,
+        },
+        {
           path: "blog/:id",
           element: <BlogDetails />,
         },
       ],
     },
   ]);
-  return (
-    // <Router>
-    //   <Layout>
-    //     <Routes>
-    //       <Route path="/" element={<Home />} />
-    //       <Route path="/about" element={<About />} />
-    //       <Route path="/blog/:id" element={<BlogDetails />} />
-    //     </Routes>
-    //   </Layout>
-    // </Router>
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

@@ -1,0 +1,56 @@
+import { FormCreateBlog } from "../home/components/CreateBlog";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../components/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Flex, Button, Text, Link as Chakralink } from "@chakra-ui/react";
+import { useCreateBlog } from "../../hooks/useBlog";
+import { serverTimestamp } from "firebase/firestore";
+import { Link as NavLink } from "react-router-dom";
+
+const CreateBlog = () => {
+  const { currentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState([]);
+
+  const handleInput = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const { uid, displayName, photoURL } = await currentUser;
+      await useCreateBlog("blogPost", {
+        ...formData,
+        user_id: uid,
+        user_displayName: displayName,
+        user_photoUrl: photoURL,
+        created_at: serverTimestamp(),
+      });
+      alert("Blog entry is succesfully created");
+      navigate("/");
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+  return (
+    <div>
+      <Text fontSize={"2xl"} fontWeight={"bold"} mb={4}>
+        Create Blog
+      </Text>
+      <FormCreateBlog onSubmit={handleSubmit} onChange={handleInput} />
+      <Flex gap={4} mt={8}>
+        <Chakralink as={NavLink} to="/">
+          <Button colorScheme="red">Cancel</Button>
+        </Chakralink>
+        <Button colorScheme="blue" onClick={handleSubmit}>
+          Create Blog!
+        </Button>
+      </Flex>
+    </div>
+  );
+};
+
+export default CreateBlog;
