@@ -1,9 +1,9 @@
-import { FormCreateBlog } from "../home/components/CreateBlog";
+import FormCreateBlog from "./components/FormCreateBlog";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Flex, Button, Text, Link as Chakralink } from "@chakra-ui/react";
-import { useCreateBlog } from "../../hooks/useBlog";
+import { createBlog } from "../../hooks/useBlog";
 import { serverTimestamp } from "firebase/firestore";
 import { Link as NavLink } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const CreateBlog = () => {
     try {
       e.preventDefault();
       const { uid, displayName, photoURL } = await currentUser;
-      await useCreateBlog("blogPost", {
+      await createBlog("blogPost", {
         ...formData,
         user_id: uid,
         user_displayName: displayName,
@@ -35,6 +35,7 @@ const CreateBlog = () => {
       console.log({ error });
     }
   };
+
   return (
     <div>
       <Text fontSize={"2xl"} fontWeight={"bold"} mb={4}>

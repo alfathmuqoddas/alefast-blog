@@ -4,35 +4,43 @@ import {
   collection,
   orderBy,
   query,
-  getDocs,
   doc,
   getDoc,
   addDoc,
   onSnapshot,
   deleteDoc,
+  where,
 } from "firebase/firestore";
-import { useNavigate, redirect } from "react-router-dom";
 
 export const useGetAllBlogs = ({ collectionName }) => {
   const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const q = query(collection(db, collectionName), orderBy("created_at"));
-        const unsub = onSnapshot(q, (querySnapshot) => {
-          let documents = [];
-          querySnapshot.forEach((doc) => {
-            documents.push({ ...doc.data(), id: doc.id });
-          });
-          setDocs(documents);
-          setLoading(false);
-        });
-        return () => unsub();
+        const blogPostsRef = collection(db, collectionName);
+
+        const unsubscribe = onSnapshot(
+          query(blogPostsRef, orderBy("created_at")),
+          async (snapshot) => {
+            const fetchedPosts = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setDocs(fetchedPosts);
+            console.log({ docs });
+            setLoading(false);
+            setError(null);
+          }
+        );
+
+        return unsubscribe;
       } catch (error) {
         console.error("Error fetching documents: ", error);
         setLoading(false);
+        setError(error);
       }
     };
 
@@ -41,13 +49,13 @@ export const useGetAllBlogs = ({ collectionName }) => {
     return () => {};
   }, [collectionName]);
 
-  return { docs, loading };
+  return { error, docs, loading };
 };
 
 export const useGetBlogById = ({ blogId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [documentData, setDocumentData] = useState(null);
+  const [postData, setPostData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +63,7 @@ export const useGetBlogById = ({ blogId }) => {
       try {
         const docRef = await getDoc(doc(db, "blogPost", blogId));
         if (docRef.exists()) {
-          setDocumentData(docRef.data());
+          setPostData(docRef.data());
         } else {
           setError("Doc not found");
         }
@@ -68,10 +76,10 @@ export const useGetBlogById = ({ blogId }) => {
     return () => {};
   }, [blogId]);
 
-  return { loading, error, documentData };
+  return { loading, error, postData };
 };
 
-export const useCreateBlog = async (collectionName, data) => {
+export const createBlog = async (collectionName, data) => {
   try {
     await addDoc(collection(db, collectionName), data);
   } catch (error) {
@@ -79,7 +87,7 @@ export const useCreateBlog = async (collectionName, data) => {
   }
 };
 
-export const useDeleteBlogById = async (id) => {
+export const deleteBlogById = async (collectionName, id) => {
   const confirmDelete = window.confirm(
     "Are you sure you want to delete this blog post?"
   );
@@ -87,9 +95,52 @@ export const useDeleteBlogById = async (id) => {
     return; // If user cancels, exit function
   }
   try {
-    await deleteDoc(doc(db, "blogPost", id));
+    await deleteDoc(doc(db, collectionName, id));
     console.log("Document successfully deleted!"); ////
   } catch (error) {
     console.log({ error });
   }
+};
+
+export const useGetAllCommentsByBlogId = ({ postId }) => {
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const commentsRef = collection(db, "comment");
+
+        const unsubscribe = onSnapshot(
+          query(
+            commentsRef,
+            orderBy("created_at"),
+            where("post_id", "==", postId)
+          ),
+          async (snapshot) => {
+            const fetchedComments = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setComments(fetchedComments);
+            setLoading(false);
+            setError(null);
+          }
+        );
+
+        return unsubscribe;
+      } catch (error) {
+        console.error("Error fetching documents: ", error);
+        setLoading(false);
+        setError(error);
+      }
+    };
+
+    fetchData();
+
+    return () => {};
+  }, [postId]);
+
+  return { error, comments, loading };
 };
