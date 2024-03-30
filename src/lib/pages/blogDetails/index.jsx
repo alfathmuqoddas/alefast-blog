@@ -17,17 +17,15 @@ import { serverTimestamp } from "firebase/firestore";
 
 const BlogDetails = () => {
   let { id } = useParams();
-  const [commentFormData, setCommentFormData] = useState("");
+  const [commentFormData, setCommentFormData] = useState({});
 
   const { currentUser } = useContext(AuthContext);
-  const { postData, loading, error } = useGetBlogById({ blogId: id });
+  const { postData, loading, error } = useGetBlogById(id);
   const {
     comments,
     loading: commentsLoading,
     error: commentsError,
-  } = useGetAllCommentsByBlogId({
-    postId: id,
-  });
+  } = useGetAllCommentsByBlogId(id);
   const navigate = useNavigate();
 
   if (loading) {

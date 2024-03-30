@@ -42,7 +42,7 @@ const CreateBlog = () => {
         Create Blog
       </Text>
       <FormCreateBlog onSubmit={handleSubmit} onChange={handleInput} />
-      <Flex gap={4} mt={8}>
+      <Flex gap={2} mt={4}>
         <Chakralink as={NavLink} to="/">
           <Button colorScheme="red">Cancel</Button>
         </Chakralink>

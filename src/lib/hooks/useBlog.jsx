@@ -52,7 +52,7 @@ export const useGetAllBlogs = ({ collectionName }) => {
   return { error, docs, loading };
 };
 
-export const useGetBlogById = ({ blogId }) => {
+export const useGetBlogById = (blogId) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [postData, setPostData] = useState(null);
@@ -102,7 +102,7 @@ export const deleteBlogById = async (collectionName, id) => {
   }
 };
 
-export const useGetAllCommentsByBlogId = ({ postId }) => {
+export const useGetAllCommentsByBlogId = (postId) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -124,7 +124,6 @@ export const useGetAllCommentsByBlogId = ({ postId }) => {
               ...doc.data(),
             }));
             setComments(fetchedComments);
-            console.log({ comments });
             setLoading(false);
             setError(null);
           }
@@ -139,8 +138,6 @@ export const useGetAllCommentsByBlogId = ({ postId }) => {
     };
 
     fetchData();
-
-    return () => {};
   }, [postId]);
 
   return { error, comments, loading };

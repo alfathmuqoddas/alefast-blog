@@ -18,10 +18,11 @@ const FormCreateComments = ({ userData, onSubmit, onChange }) => {
         />
         <Text fontWeight={"bold"}>{userData.displayName}</Text>
       </Flex>
-      <FormControl onSubmit={onSubmit} onChange={onChange} pt={2}>
+      <FormControl onSubmit={onSubmit} pt={2}>
         <Textarea
           name="comment_content"
           placeholder="What's your thought?"
+          onChange={onChange}
           variant={"unstyled"}
           required
         />
