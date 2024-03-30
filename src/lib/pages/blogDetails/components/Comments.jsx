@@ -13,7 +13,7 @@ const Comments = ({ comments }) => {
             <Flex gap={4} alignItems={"center"}>
               <Avatar
                 name={comment.user_displayName}
-                src={comment.user_photoURL}
+                src={comment.user_photoUrl}
                 size={"sm"}
               />
               <Box>
@@ -28,6 +28,7 @@ const Comments = ({ comments }) => {
                     fontSize={"xs"}
                     pt={2}
                     onClick={() => deleteBlogById("comment", comment.id)}
+                    _hover={{ cursor: "pointer" }}
                   >
                     Delete
                   </Text>

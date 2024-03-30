@@ -124,6 +124,7 @@ export const useGetAllCommentsByBlogId = ({ postId }) => {
               ...doc.data(),
             }));
             setComments(fetchedComments);
+            console.log({ comments });
             setLoading(false);
             setError(null);
           }
@@ -143,4 +144,19 @@ export const useGetAllCommentsByBlogId = ({ postId }) => {
   }, [postId]);
 
   return { error, comments, loading };
+};
+
+export const deleteAllCommentByBlogId = async (collectionName, blogId) => {
+  try {
+    const collectionRef = collection(collectionName);
+    const query = collectionRef.where("post_id", "==", blogId);
+    const querySnapshot = await query.get();
+    for (const doc of querySnapshot.docs) {
+      await doc.ref.delete();
+    }
+
+    console.log("matching document delete succesfully");
+  } catch (error) {
+    console.log({ error });
+  }
 };

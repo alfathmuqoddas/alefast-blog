@@ -5,6 +5,7 @@ import {
   deleteBlogById,
   createBlog,
   useGetAllCommentsByBlogId,
+  deleteAllCommentByBlogId,
 } from "../../hooks/useBlog";
 import { Box, Text, Button, Flex } from "@chakra-ui/react";
 import { AuthContext } from "../../components/AuthContext";
@@ -63,6 +64,7 @@ const BlogDetails = () => {
   const handleDelete = async () => {
     try {
       await deleteBlogById("blogPost", id);
+      await deleteAllCommentByBlogId("comment", id);
       alert("Blog successfully deleted");
       navigate("/");
     } catch (error) {
@@ -112,7 +114,9 @@ const BlogDetails = () => {
           </Box>
         )}
 
-        <Comments comments={comments} />
+        {commentsError ? <>{commentsError.message}</> : <></>}
+
+        {commentsLoading ? <>Loading...</> : <Comments comments={comments} />}
       </Box>
     </Box>
   );
